@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { inject, observer } from 'mobx-react'
+import { observable } from 'mobx'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+@inject('store')
+@observer class App extends React.Component<{ store?: any }> {
+  constructor(props: any) {
+    super(props)
+  }
+  @observable name: string = 'prasad'
+
+  handleClick = () => {
+    this.name = 'qwertyui'
+    console.log('this.name', this.name)
+  }
+
+  render() {
+    console.log('this.name', this.name)
+    const { store: { list, add, n } } = this.props
+    return (
+      <div className="App">
+        {
+          list.map((i: any, idx: number) => {
+            return <li key={idx}>{i.id}</li>
+          })
+        }
+        <button onClick={this.handleClick}>{this.name}</button>
+        {n}
+      </div>
+    );
+  }
 }
 
-export default App;
+export default App
